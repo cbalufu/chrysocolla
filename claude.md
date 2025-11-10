@@ -142,106 +142,190 @@ Citizens can submit and track various applications:
 
 **Entities**: `Ticket`, `TicketMessage`, `TicketAttachment`
 
-## Suggested Additional Features
+## Phase 2 - Enhanced Services (IMPLEMENTED)
 
-Here are additional features commonly found in citizen portal systems that you can choose to implement:
+### 7. **Online Payments Integration** ✅
+- Payment processing with multiple gateways (Stripe, PayPal, Square, etc.)
+- Payment allocation to multiple bills
+- Payment history tracking
+- Receipt generation
+- Refund management
+- Transaction status tracking
 
-### Phase 2 - Enhanced Services
-1. **Online Payments Integration**
-   - Payment gateway integration (Stripe, PayPal, local processors)
-   - Payment history and receipts
-   - Auto-payment setup
-   - Payment reminders
+**Entities**: `Payment`, `PaymentAllocation`, `PaymentReceipt`
 
-2. **Document Management**
-   - Digital document vault for citizens
-   - Download certificates and permits
-   - Digital signatures
-   - Document expiry tracking
+**Payment Methods**: Credit Card, Debit Card, Bank Transfer, EFT, Cash, Cheque, Mobile Payment, Online Payment
 
-3. **Property Information**
-   - Property details and valuations
-   - Property tax history
-   - Property ownership verification
-   - Property-linked services
+### 8. **Document Management** ✅
+- Digital document vault for citizens
+- Document categorization (Personal, Property, Tax, Certificates, etc.)
+- Document status tracking (Active, Expired, Revoked, Archived)
+- Digital signature support
+- Document expiry and renewal reminders
+- Access logging and audit trail
+- File integrity verification (hash)
+- Document access levels (Private, Shared, Public)
 
-4. **Appointment Booking**
-   - Book appointments with officials
-   - Department-specific scheduling
-   - Calendar integration
-   - Appointment reminders
+**Entities**: `Document`, `DocumentAccess`
 
-5. **Public Records Access**
-   - Birth/death certificates requests
-   - Marriage certificates
-   - Property records
-   - Court records (where applicable)
+### 9. **Property Information** ✅
+- Complete property registry
+- Property details (type, size, location, GPS coordinates)
+- Property valuations and history
+- Multiple valuation methods (Market Value, Replacement Cost, etc.)
+- Property ownership tracking (Owner, Tenant, Co-Owner, Leaseholder)
+- Property tax history
+- Ward and suburb information
 
-### Phase 3 - Advanced Features
-6. **GIS/Mapping Integration**
-   - Interactive maps for issue reporting
-   - Property location visualization
-   - Service area coverage maps
-   - Infrastructure planning visibility
+**Entities**: `Property`, `PropertyOwnership`, `PropertyValuation`, `PropertyTaxHistory`
 
-7. **Community Engagement**
-   - Public consultations and surveys
-   - Town hall meeting schedules
-   - Community forums
-   - Voting on local initiatives
+### 10. **Appointment Booking** ✅
+- Book appointments with municipal departments
+- Appointment types (In-Person, Virtual, Phone)
+- Time slot management
+- Staff assignment
+- Appointment reminders
+- Virtual meeting link generation
+- Cancellation and rescheduling
+- No-show tracking
 
-8. **Emergency Services**
-   - Emergency alerts and notifications
-   - Disaster management information
-   - Evacuation routes
-   - Emergency contact directory
+**Entities**: `Appointment`, `AppointmentSlot`, `Department`
 
-9. **Service Requests**
-   - Request bulk waste pickup
-   - Request street maintenance
-   - Request tree trimming
-   - Request inspection services
+### 11. **Public Records & Certificates** ✅
+- Request official certificates (Birth, Death, Marriage, etc.)
+- Multiple certificate types supported
+- Document upload for verification
+- Payment integration
+- Collection/delivery options
+- Processing workflow
+- Digital certificate generation
+- Verification codes for authenticity
 
-10. **Dashboard & Analytics**
-    - Citizen personal dashboard
-    - Service usage statistics
-    - Spending analysis
-    - Community statistics
+**Entities**: `CertificateRequest`, `CertificateRequestDocument`, `Certificate`
 
-### Phase 4 - Mobile & Integration
-11. **Mobile Applications**
-    - Native iOS and Android apps
-    - Push notifications
-    - Offline mode
-    - Biometric authentication
+**Certificate Types**: Birth, Death, Marriage, Divorce, Property, Tax Clearance, Residence, Good Conduct, and more
 
-12. **Third-Party Integrations**
-    - Social media integration
-    - SMS notifications
-    - Email marketing platforms
-    - CRM systems
+## Phase 3 - Advanced Features (IMPLEMENTED)
 
-13. **Reporting & Transparency**
-    - Public spending reports
-    - Project status tracking
-    - Budget visualization
-    - Performance metrics
+### 12. **GIS & Mapping Integration** ✅
+- Infrastructure project tracking with GeoJSON support
+- Project visualization on maps
+- Service area coverage mapping
+- Project progress tracking
+- Budget vs spending monitoring
+- Contractor management
+- Project updates and photo documentation
+- Boundary polygon support for area projects
 
-14. **Multilingual Support**
-    - Multiple language support
-    - RTL language support
-    - Localized content
-    - Translation management
+**Entities**: `InfrastructureProject`, `ProjectUpdate`, `ProjectImage`, `ServiceArea`
 
-15. **Accessibility Features**
-    - WCAG 2.1 compliance
-    - Screen reader support
-    - High contrast modes
-    - Keyboard navigation
+**Project Categories**: Roads, Water, Electricity, Parks, Buildings, Bridges, Drainage, Street Lighting
+
+### 13. **Community Engagement** ✅
+- **Surveys & Polls**
+  - Create public surveys
+  - Multiple question types (Single/Multiple Choice, Text, Rating, Yes/No)
+  - Anonymous responses option
+  - Real-time response tracking
+
+- **Public Consultations**
+  - Policy and project consultations
+  - Document attachments
+  - Public commenting
+  - View tracking
+
+- **Community Voting**
+  - Vote on initiatives and budgets
+  - Multiple vote types (Initiative, Budget, Project Priority, Policy Change)
+  - Vote verification option
+  - Real-time vote counting
+
+- **Community Forums**
+  - Topic-based discussions
+  - Threaded replies
+  - Like/upvote system
+  - Pinned and locked posts
+  - Moderation (Active, Flagged, Hidden)
+
+**Entities**: `Survey`, `SurveyQuestion`, `SurveyResponse`, `SurveyAnswer`, `Consultation`, `ConsultationComment`, `Vote`, `VoteOption`, `CitizenVote`, `ForumTopic`, `ForumPost`, `ForumReply`
+
+### 14. **Emergency Services** ✅
+- Emergency alert broadcasting
+- Alert severity levels (Info, Warning, Severe, Critical)
+- Alert types (Weather, Fire, Flood, Earthquake, Power/Water Outage, etc.)
+- Affected area mapping (GeoJSON polygons)
+- Ward-based targeting
+- Safety instructions
+- Citizen acknowledgement tracking
+- Evacuation route mapping
+- Emergency contact directory
+
+**Entities**: `EmergencyAlert`, `AlertAcknowledgement`, `EvacuationRoute`, `EmergencyContact`
+
+### 15. **Service Requests** ✅
+- Request municipal services
+- Multiple service types (Bulk Waste Pickup, Tree Trimming, Street Maintenance, Inspections, etc.)
+- Priority management
+- Preferred scheduling
+- GPS location tracking
+- Photo attachments
+- Staff and department assignment
+- Service completion tracking
+- Citizen feedback and ratings
+- Status updates
+
+**Entities**: `ServiceRequest`, `ServiceRequestAttachment`, `ServiceRequestUpdate`
+
+**Service Types**: Bulk Waste Pickup, Garden Waste, Street Maintenance, Tree Trimming, Pothole Repair, Street Light Repair, Drainage Cleaning, Pest Control, Building/Health/Fire Safety Inspections
+
+### 16. **Dashboard & Analytics** ✅
+- Personalized citizen dashboard
+- Real-time statistics aggregation
+- Outstanding balance tracking
+- Application status overview
+- Issue and service request tracking
+- Notification and ticket counts
+- Upcoming appointments
+- Monthly spending analysis by category
+- Service usage logging for analytics
+
+**Entities**: `CitizenDashboardStats`, `ServiceUsageLog`, `MonthlySpendingAnalysis`
+
+## Phase 4 - Future Enhancements (Suggested)
+
+### Mobile Applications
+- Native iOS and Android apps
+- Push notifications
+- Offline mode
+- Biometric authentication
+
+### Third-Party Integrations
+- Social media integration
+- SMS notifications
+- Email marketing platforms
+- CRM systems integration
+
+### Reporting & Transparency
+- Public spending reports
+- Project status tracking
+- Budget visualization
+- Performance metrics dashboard
+
+### Multilingual Support
+- Multiple language support
+- RTL language support
+- Localized content
+- Translation management
+
+### Accessibility Features
+- WCAG 2.1 compliance
+- Screen reader support
+- High contrast modes
+- Keyboard navigation
 
 ## Database Schema
 
-### Core Tables
+### Phase 1 - Core Tables
 - `AppCitizens` - Citizen profiles
 - `AppIssueReports` - Issue reports
 - `AppIssueAttachments` - Issue photos/documents
@@ -254,6 +338,53 @@ Here are additional features commonly found in citizen portal systems that you c
 - `AppTickets` - Support tickets
 - `AppTicketMessages` - Ticket conversations
 - `AppTicketAttachments` - Ticket attachments
+
+### Phase 2 - Enhanced Services Tables
+- `AppPayments` - Payment transactions
+- `AppPaymentAllocations` - Payment-to-bill mappings
+- `AppPaymentReceipts` - Payment receipts
+- `AppDocuments` - Digital document vault
+- `AppDocumentAccesses` - Document access audit log
+- `AppProperties` - Property registry
+- `AppPropertyOwnerships` - Property-citizen relationships
+- `AppPropertyValuations` - Property valuation history
+- `AppPropertyTaxHistories` - Property tax payment history
+- `AppDepartments` - Municipal departments
+- `AppAppointments` - Citizen appointments
+- `AppAppointmentSlots` - Available appointment time slots
+- `AppCertificateRequests` - Certificate requests
+- `AppCertificateRequestDocuments` - Supporting documents for requests
+- `AppCertificates` - Issued certificates
+
+### Phase 3 - Advanced Features Tables
+- `AppInfrastructureProjects` - Municipal infrastructure projects
+- `AppProjectUpdates` - Project progress updates
+- `AppProjectImages` - Project photos
+- `AppServiceAreas` - Service coverage areas (GeoJSON)
+- `AppSurveys` - Public surveys
+- `AppSurveyQuestions` - Survey questions
+- `AppSurveyResponses` - Citizen survey responses
+- `AppSurveyAnswers` - Individual question answers
+- `AppConsultations` - Public consultations
+- `AppConsultationComments` - Consultation feedback
+- `AppVotes` - Community votes
+- `AppVoteOptions` - Vote choices
+- `AppCitizenVotes` - Citizen voting records
+- `AppForumTopics` - Forum categories
+- `AppForumPosts` - Forum posts
+- `AppForumReplies` - Forum post replies
+- `AppEmergencyAlerts` - Emergency alerts
+- `AppAlertAcknowledgements` - Alert citizen acknowledgements
+- `AppEvacuationRoutes` - Evacuation route mappings
+- `AppEmergencyContacts` - Emergency contact directory
+- `AppServiceRequests` - Service requests
+- `AppServiceRequestAttachments` - Service request attachments
+- `AppServiceRequestUpdates` - Service request status updates
+- `AppCitizenDashboardStats` - Aggregated dashboard statistics
+- `AppServiceUsageLogs` - Service usage analytics
+- `AppMonthlySpendingAnalyses` - Monthly spending breakdowns
+
+**Total: 60+ database tables** covering all aspects of citizen service delivery
 
 ## Getting Started
 
