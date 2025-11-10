@@ -141,6 +141,46 @@ Major endpoint groups:
 
 See `ABP-CLI-GUIDE.md` for generating client proxies.
 
+## ABP Infrastructure
+
+This project includes comprehensive ABP Framework infrastructure:
+
+### Permissions System
+- **160+ fine-grained permissions** organized by feature
+- Hierarchical permission structure (parent/child relationships)
+- Role-based and policy-based authorization
+- Located in `src/CitizensPortal.Application.Contracts/Permissions/`
+
+Key permission groups:
+- Citizens, IssueReports, Applications, Bills
+- Payments, Documents, Properties, Appointments
+- Certificates, InfrastructureProjects
+- Surveys, Consultations, Votes, Forums
+- EmergencyAlerts, ServiceRequests
+
+### Localization
+- English localization with 160+ resource strings
+- Extensible for multiple languages
+- Located in `src/CitizensPortal.Domain.Shared/Localization/CitizensPortal/`
+- Add new languages by creating `{culture}.json` files
+
+### Application Services
+- Example services with proper authorization attributes
+- `CitizenAppService` - Citizen management with permissions
+- `IssueReportAppService` - Issue tracking with role-based access
+- All services inherit from ABP's `CrudAppService` for standard operations
+
+### Database Migrator
+- Standalone console application for running migrations
+- Located in `src/CitizensPortal.DbMigrator/`
+- Run with: `dotnet run --project src/CitizensPortal.DbMigrator/`
+- Automatically applies pending migrations and seeds data
+
+### Multi-Tenancy
+- Built-in support for tenant isolation
+- All entities implement `IMultiTenant` where appropriate
+- Tenant resolver configured for subdomain/header-based resolution
+
 ## Development
 
 ### Add a Migration

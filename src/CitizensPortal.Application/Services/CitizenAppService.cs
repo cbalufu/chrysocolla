@@ -1,34 +1,56 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Users;
 using CitizensPortal.Application.Contracts.DTOs.Citizen;
 using CitizensPortal.Application.Contracts.Services;
 using CitizensPortal.Domain.Entities;
 using CitizensPortal.Domain.Repositories;
+using CitizensPortal.Permissions;
 
-namespace CitizensPortal.Application.Services
+namespace CitizensPortal.Application.Services;
+
+[Authorize(CitizensPortalPermissions.Citizens.Default)]
+public class CitizenAppService : CrudAppService<Citizen, CitizenDto, Guid, CitizenDto, CreateUpdateCitizenDto>, ICitizenAppService
 {
-    public class CitizenAppService : CrudAppService<Citizen, CitizenDto, Guid, CitizenDto, CreateUpdateCitizenDto>, ICitizenAppService
+    private readonly ICitizenRepository _citizenRepository;
+
+    public CitizenAppService(ICitizenRepository repository) : base(repository)
     {
-        private readonly ICitizenRepository _citizenRepository;
+        _citizenRepository = repository;
 
-        public CitizenAppService(ICitizenRepository repository) : base(repository)
+        GetPolicyName = CitizensPortalPermissions.Citizens.Default;
+        GetListPolicyName = CitizensPortalPermissions.Citizens.Default;
+        CreatePolicyName = CitizensPortalPermissions.Citizens.Create;
+        UpdatePolicyName = CitizensPortalPermissions.Citizens.Edit;
+        DeletePolicyName = CitizensPortalPermissions.Citizens.Delete;
+    }
+
+    public async Task<CitizenDto> GetByEmailAsync(string email)
+    {
+        var citizen = await _citizenRepository.FindByEmailAsync(email);
+        return ObjectMapper.Map<Citizen, CitizenDto>(citizen);
+    }
+
+    [Authorize]
+    public async Task<CitizenDto> GetCurrentCitizenAsync()
+    {
+        var currentUserEmail = CurrentUser.Email;
+        if (string.IsNullOrEmpty(currentUserEmail))
         {
-            _citizenRepository = repository;
+            throw new Volo.Abp.BusinessException("USER_EMAIL_NOT_FOUND")
+                .WithData("message", "Current user email not found");
         }
 
-        public async Task<CitizenDto> GetByEmailAsync(string email)
+        var citizen = await _citizenRepository.FindByEmailAsync(currentUserEmail);
+        if (citizen == null)
         {
-            var citizen = await _citizenRepository.FindByEmailAsync(email);
-            return ObjectMapper.Map<Citizen, CitizenDto>(citizen);
+            throw new Volo.Abp.BusinessException("CITIZEN_NOT_FOUND")
+                .WithData("message", $"No citizen record found for email: {currentUserEmail}");
         }
 
-        public async Task<CitizenDto> GetCurrentCitizenAsync()
-        {
-            // In a real application, get the current user's email from the authentication context
-            // For now, this is a placeholder
-            throw new NotImplementedException("Implement based on your authentication setup");
-        }
+        return ObjectMapper.Map<Citizen, CitizenDto>(citizen);
     }
 }
