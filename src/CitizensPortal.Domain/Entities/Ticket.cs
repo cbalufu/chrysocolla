@@ -57,6 +57,28 @@ namespace CitizensPortal.Domain.Entities
             Attachments = new List<TicketAttachment>();
         }
 
+        // Overload for service compatibility (with priority)
+        public Ticket(
+            Guid id,
+            Guid citizenId,
+            string subject,
+            string description,
+            TicketCategory category,
+            TicketPriority priority,
+            Guid? tenantId = null) : base(id)
+        {
+            CitizenId = citizenId;
+            Subject = subject;
+            Description = description;
+            Category = category;
+            Priority = priority;
+            Status = TicketStatus.Open;
+            TenantId = tenantId;
+            TicketNumber = GenerateTicketNumber();
+            Messages = new List<TicketMessage>();
+            Attachments = new List<TicketAttachment>();
+        }
+
         private string GenerateTicketNumber()
         {
             return $"TKT-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";

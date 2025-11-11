@@ -38,9 +38,12 @@ namespace CitizensPortal.Application.Contracts.DTOs.ServiceRequest
     public class CreateUpdateServiceRequestDto
     {
         public ServiceRequestType Type { get; set; }
+        public ServiceRequestType ServiceType { get => Type; set => Type = value; } // Alias
+        public ServiceRequestPriority Priority { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ServiceAddress { get; set; }
+        public string Location { get => ServiceAddress; set => ServiceAddress = value; } // Alias
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public DateTime? PreferredDate { get; set; }

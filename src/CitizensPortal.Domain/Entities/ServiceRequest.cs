@@ -26,6 +26,7 @@ namespace CitizensPortal.Domain.Entities
 
         // Location details
         public string ServiceAddress { get; set; }
+        public string Location { get => ServiceAddress; set => ServiceAddress = value; } // Alias
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
 

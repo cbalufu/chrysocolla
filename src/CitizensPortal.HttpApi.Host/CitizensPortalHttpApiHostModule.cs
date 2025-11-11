@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
@@ -85,7 +84,8 @@ public class CitizensPortalHttpApiHostModule : AbpModule
 
         private void ConfigureAuthentication(ServiceConfigurationContext context)
         {
-            context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+            // OpenIddict authentication is configured automatically by AbpAccountWebOpenIddictModule
+            // context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
         }
 
         private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
@@ -161,4 +161,3 @@ public class CitizensPortalHttpApiHostModule : AbpModule
             app.UseConfiguredEndpoints();
         }
     }
-}
