@@ -96,4 +96,3 @@ public class CitizensPortalDbContext : AbpDbContext<CitizensPortalDbContext>
             builder.ConfigureCitizensPortal();
         }
     }
-}

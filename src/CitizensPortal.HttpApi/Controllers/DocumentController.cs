@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 using CitizensPortal.Application.Contracts.DTOs.Document;
 using CitizensPortal.Application.Contracts.Services;
-using CitizensPortal.Domain.Enums;
+using CitizensPortal.Domain.Shared.Enums;
 
 namespace CitizensPortal.HttpApi.Controllers
 {

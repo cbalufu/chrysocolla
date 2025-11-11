@@ -269,18 +269,12 @@ public class CitizensPortalOpenIddictDataSeedContributor : IDataSeedContributor,
             return;
         }
 
-        if (!HasSameRedirectUris(client, application))
-        {
-            client.RedirectUris = JsonSerializer.Serialize(application.RedirectUris.Select(q => q.ToString().RemovePostFix("/")));
-            client.PostLogoutRedirectUris = JsonSerializer.Serialize(application.PostLogoutRedirectUris.Select(q => q.ToString().RemovePostFix("/")));
+        // Update existing application if needed
+        var needsUpdate = !HasSameRedirectUris(client, application) || !HasSameScopes(client, application);
 
-            await _applicationManager.UpdateAsync(client);
-        }
-
-        if (!HasSameScopes(client, application))
+        if (needsUpdate)
         {
-            client.Permissions = JsonSerializer.Serialize(application.Permissions.Select(q => q.ToString()));
-            await _applicationManager.UpdateAsync(client);
+            await _applicationManager.UpdateAsync(client, application);
         }
     }
 

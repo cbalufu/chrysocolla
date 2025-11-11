@@ -44,9 +44,9 @@ public class CitizensPortalDataSeedContributor : IDataSeedContributor, ITransien
         using (_currentTenant.Change(context?.TenantId))
         {
             await _identityDataSeeder.SeedAsync(
-                email: "admin@abp.io",
-                password: "1q2w3E*",
-                tenantId: context?.TenantId
+                "admin@abp.io",
+                "1q2w3E*",
+                context?.TenantId
             );
 
             // Seed default admin role permissions
