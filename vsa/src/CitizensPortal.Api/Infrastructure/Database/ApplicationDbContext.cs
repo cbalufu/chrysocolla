@@ -22,6 +22,7 @@ public sealed class ApplicationDbContext : DbContext
     }
 
     public DbSet<Tenant> Tenants => Set<Tenant>();
+    public DbSet<Citizen> Citizens => Set<Citizen>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
