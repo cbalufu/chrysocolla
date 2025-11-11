@@ -23,6 +23,22 @@ public sealed class ApplicationDbContext : DbContext
 
     public DbSet<Tenant> Tenants => Set<Tenant>();
     public DbSet<Citizen> Citizens => Set<Citizen>();
+    public DbSet<Issue> Issues => Set<Issue>();
+    public DbSet<IssueComment> IssueComments => Set<IssueComment>();
+    public DbSet<Application> Applications => Set<Application>();
+    public DbSet<ApplicationDocument> ApplicationDocuments => Set<ApplicationDocument>();
+    public DbSet<Bill> Bills => Set<Bill>();
+    public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<Document> Documents => Set<Document>();
+    public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<Property> Properties => Set<Property>();
+    public DbSet<Appointment> Appointments => Set<Appointment>();
+    public DbSet<EmergencyAlert> EmergencyAlerts => Set<EmergencyAlert>();
+    public DbSet<AlertAcknowledgement> AlertAcknowledgements => Set<AlertAcknowledgement>();
+    public DbSet<ServiceRequest> ServiceRequests => Set<ServiceRequest>();
+    public DbSet<SupportTicket> SupportTickets => Set<SupportTicket>();
+    public DbSet<TicketMessage> TicketMessages => Set<TicketMessage>();
+    public DbSet<Certificate> Certificates => Set<Certificate>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
