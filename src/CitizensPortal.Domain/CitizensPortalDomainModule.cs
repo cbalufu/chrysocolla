@@ -1,3 +1,4 @@
+using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -12,6 +13,7 @@ namespace CitizensPortal.Domain;
     typeof(AbpIdentityDomainModule),
     typeof(AbpPermissionManagementDomainIdentityModule),
     typeof(AbpTenantManagementDomainModule),
+    typeof(AbpBlobStoringModule),
     typeof(CitizensPortalDomainSharedModule)
 )]
 public class CitizensPortalDomainModule : AbpModule

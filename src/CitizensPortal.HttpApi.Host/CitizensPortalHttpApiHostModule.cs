@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +17,8 @@ using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.Emailing;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -45,7 +48,8 @@ namespace CitizensPortal.HttpApi.Host;
     typeof(AbpPermissionManagementApplicationModule),
     typeof(AbpFeatureManagementApplicationModule),
     typeof(AbpEmailingModule),
-    typeof(AbpMailKitModule)
+    typeof(AbpMailKitModule),
+    typeof(AbpBlobStoringFileSystemModule)
 )]
 public class CitizensPortalHttpApiHostModule : AbpModule
     {
@@ -57,6 +61,26 @@ public class CitizensPortalHttpApiHostModule : AbpModule
             ConfigureCors(context, configuration);
             ConfigureAuthentication(context);
             ConfigureSwaggerServices(context, configuration);
+            ConfigureBlobStoring(context, configuration);
+        }
+
+        private void ConfigureBlobStoring(ServiceConfigurationContext context, IConfiguration configuration)
+        {
+            Configure<AbpBlobStoringOptions>(options =>
+            {
+                options.Containers.ConfigureDefault(container =>
+                {
+                    container.UseFileSystem(fileSystem =>
+                    {
+                        var basePath = configuration["BlobStorage:FileSystem:BasePath"];
+                        if (string.IsNullOrEmpty(basePath))
+                        {
+                            basePath = Path.Combine(Directory.GetCurrentDirectory(), "BlobStorage");
+                        }
+                        fileSystem.BasePath = basePath;
+                    });
+                });
+            });
         }
 
         private void ConfigureAuthentication(ServiceConfigurationContext context)
