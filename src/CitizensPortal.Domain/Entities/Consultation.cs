@@ -58,5 +58,13 @@ namespace CitizensPortal.Domain.Entities
         public bool IsPublic { get; set; }
 
         protected ConsultationComment() { }
+
+        public ConsultationComment(Guid id, Guid consultationId, Guid citizenId, string comment, bool isPublic = true) : base(id)
+        {
+            ConsultationId = consultationId;
+            CitizenId = citizenId;
+            Comment = comment;
+            IsPublic = isPublic;
+        }
     }
 }

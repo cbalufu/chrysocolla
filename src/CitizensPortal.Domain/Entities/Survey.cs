@@ -83,6 +83,14 @@ namespace CitizensPortal.Domain.Entities
         {
             Answers = new List<SurveyAnswer>();
         }
+
+        public SurveyResponse(Guid id, Guid surveyId, Guid citizenId, DateTime submittedDate) : base(id)
+        {
+            SurveyId = surveyId;
+            CitizenId = citizenId;
+            SubmittedDate = submittedDate;
+            Answers = new List<SurveyAnswer>();
+        }
     }
 
     public class SurveyAnswer : CreationAuditedEntity<Guid>
@@ -96,5 +104,12 @@ namespace CitizensPortal.Domain.Entities
         public string AnswerText { get; set; }
 
         protected SurveyAnswer() { }
+
+        public SurveyAnswer(Guid id, Guid surveyResponseId, Guid surveyQuestionId, string answerText) : base(id)
+        {
+            SurveyResponseId = surveyResponseId;
+            SurveyQuestionId = surveyQuestionId;
+            AnswerText = answerText;
+        }
     }
 }

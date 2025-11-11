@@ -72,5 +72,13 @@ namespace CitizensPortal.Domain.Entities
         public DateTime VotedDate { get; set; }
 
         protected CitizenVote() { }
+
+        public CitizenVote(Guid id, Guid voteId, Guid citizenId, Guid voteOptionId, DateTime votedDate) : base(id)
+        {
+            VoteId = voteId;
+            CitizenId = citizenId;
+            VoteOptionId = voteOptionId;
+            VotedDate = votedDate;
+        }
     }
 }

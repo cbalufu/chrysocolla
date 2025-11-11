@@ -46,7 +46,7 @@ public class ConsultationAppService : CrudAppService<Consultation, ConsultationD
     public async Task<List<ConsultationDto>> GetActiveConsultationsAsync()
     {
         var consultations = await _consultationRepository.GetListAsync();
-        var activeConsultations = consultations.Where(c => c.Status == ConsultationStatus.Active &&
+        var activeConsultations = consultations.Where(c => c.Status == ConsultationStatus.Open &&
                                                           c.StartDate <= DateTime.UtcNow &&
                                                           c.EndDate >= DateTime.UtcNow)
                                                .OrderByDescending(c => c.StartDate)
@@ -66,7 +66,7 @@ public class ConsultationAppService : CrudAppService<Consultation, ConsultationD
 
         var consultation = await _consultationRepository.GetAsync(id);
 
-        if (consultation.Status != ConsultationStatus.Active)
+        if (consultation.Status != ConsultationStatus.Open)
         {
             throw new Volo.Abp.BusinessException("CONSULTATION_NOT_ACTIVE")
                 .WithData("message", "Consultation is not active");
@@ -99,7 +99,7 @@ public class ConsultationAppService : CrudAppService<Consultation, ConsultationD
             id,
             citizen.Id,
             comment,
-            DateTime.UtcNow
+            true // isPublic
         );
 
         await _commentRepository.InsertAsync(consultationComment);

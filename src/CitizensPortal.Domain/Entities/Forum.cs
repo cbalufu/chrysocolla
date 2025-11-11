@@ -90,5 +90,13 @@ namespace CitizensPortal.Domain.Entities
         public ForumPostStatus Status { get; set; }
 
         protected ForumReply() { }
+
+        public ForumReply(Guid id, Guid forumPostId, Guid citizenId, string content, ForumPostStatus status = ForumPostStatus.Active) : base(id)
+        {
+            ForumPostId = forumPostId;
+            CitizenId = citizenId;
+            Content = content;
+            Status = status;
+        }
     }
 }

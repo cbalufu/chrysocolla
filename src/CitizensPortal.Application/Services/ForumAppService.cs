@@ -50,9 +50,9 @@ public class ForumAppService : CrudAppService<ForumPost, ForumPostDto, Guid>, IF
         var topic = await _topicRepository.GetAsync(topicId);
 
         var posts = await _postRepository.GetListAsync();
-        var topicPosts = posts.Where(p => p.TopicId == topicId)
+        var topicPosts = posts.Where(p => p.ForumTopicId == topicId)
                              .OrderByDescending(p => p.IsPinned)
-                             .ThenByDescending(p => p.PostDate)
+                             .ThenByDescending(p => p.CreationTime)
                              .ToList();
 
         return ObjectMapper.Map<List<ForumPost>, List<ForumPostDto>>(topicPosts);
@@ -115,8 +115,7 @@ public class ForumAppService : CrudAppService<ForumPost, ForumPostDto, Guid>, IF
             _guidGenerator.Create(),
             postId,
             citizen.Id,
-            content,
-            DateTime.UtcNow
+            content
         );
 
         await _replyRepository.InsertAsync(reply);
@@ -144,16 +143,15 @@ public class ForumAppService : CrudAppService<ForumPost, ForumPostDto, Guid>, IF
         }
 
         // Verify topic exists
-        await _topicRepository.GetAsync(input.TopicId);
+        await _topicRepository.GetAsync(input.ForumTopicId);
 
         // Create forum post
         var post = new ForumPost(
             _guidGenerator.Create(),
-            input.TopicId,
+            input.ForumTopicId,
             citizen.Id,
             input.Title,
-            input.Content,
-            DateTime.UtcNow
+            input.Content
         );
 
         var createdPost = await _postRepository.InsertAsync(post);
