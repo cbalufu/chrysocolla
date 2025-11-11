@@ -16,8 +16,10 @@ using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
+using Volo.Abp.Emailing;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
+using Volo.Abp.MailKit;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Swashbuckle;
@@ -41,7 +43,9 @@ namespace CitizensPortal.HttpApi.Host;
     typeof(AbpIdentityApplicationModule),
     typeof(AbpTenantManagementApplicationModule),
     typeof(AbpPermissionManagementApplicationModule),
-    typeof(AbpFeatureManagementApplicationModule)
+    typeof(AbpFeatureManagementApplicationModule),
+    typeof(AbpEmailingModule),
+    typeof(AbpMailKitModule)
 )]
 public class CitizensPortalHttpApiHostModule : AbpModule
     {
