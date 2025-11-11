@@ -47,22 +47,32 @@ A comprehensive multi-tenant web application for local authorities to manage cit
    }
    ```
 
-3. **Create Database**
+3. **Create Database & Seed Data**
    ```bash
+   # Create initial migration
    cd src/CitizensPortal.EntityFrameworkCore
    dotnet ef migrations add InitialCreate
-   dotnet ef database update
+
+   # Run database migrator (creates DB and seeds admin user)
+   cd ../..
+   dotnet run --project src/CitizensPortal.DbMigrator/
    ```
 
 4. **Run Application**
    ```bash
-   cd ../CitizensPortal.HttpApi.Host
+   cd src/CitizensPortal.HttpApi.Host
    dotnet run
    ```
 
-5. **Access**
-   - API: https://localhost:44300
-   - Swagger: https://localhost:44300/swagger
+5. **Access Swagger UI**
+
+   Navigate to: https://localhost:44300/swagger
+
+   **Default Login:**
+   - Email: admin@abp.io
+   - Password: 1q2w3E*
+
+   **📖 See [AUTHENTICATION.md](AUTHENTICATION.md) for complete authentication & authorization guide**
 
 ## Documentation
 

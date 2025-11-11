@@ -1,13 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.FeatureManagement.EntityFrameworkCore;
+using Volo.Abp.Identity;
+using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+using Volo.Abp.SettingManagement.EntityFrameworkCore;
+using Volo.Abp.TenantManagement;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using CitizensPortal.Domain.Entities;
 
-namespace CitizensPortal.EntityFrameworkCore
+namespace CitizensPortal.EntityFrameworkCore;
+
+[ConnectionStringName("Default")]
+public class CitizensPortalDbContext : AbpDbContext<CitizensPortalDbContext>
 {
-    [ConnectionStringName("Default")]
-    public class CitizensPortalDbContext : AbpDbContext<CitizensPortalDbContext>
-    {
         // Phase 1 - Core
         public DbSet<Citizen> Citizens { get; set; }
         public DbSet<IssueReport> IssueReports { get; set; }
@@ -76,6 +84,15 @@ namespace CitizensPortal.EntityFrameworkCore
         {
             base.OnModelCreating(builder);
 
+            // Configure ABP modules
+            builder.ConfigurePermissionManagement();
+            builder.ConfigureSettingManagement();
+            builder.ConfigureAuditLogging();
+            builder.ConfigureIdentity();
+            builder.ConfigureTenantManagement();
+            builder.ConfigureFeatureManagement();
+
+            // Configure Citizens Portal entities
             builder.ConfigureCitizensPortal();
         }
     }
