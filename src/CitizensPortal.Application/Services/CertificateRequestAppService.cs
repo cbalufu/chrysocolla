@@ -163,7 +163,7 @@ public class CertificateRequestAppService : CrudAppService<CertificateRequest, C
         }
 
         // Check if certificate is valid and not expired
-        if (certificate.Status != CertificateStatus.Valid)
+        if (certificate.Status != CertificateRequestStatus.Issued)
         {
             return false;
         }

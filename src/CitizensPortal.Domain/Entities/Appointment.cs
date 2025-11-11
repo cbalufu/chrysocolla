@@ -57,16 +57,38 @@ namespace CitizensPortal.Domain.Entities
             Guid departmentId,
             DateTime appointmentDate,
             TimeSpan startTime,
-            TimeSpan endTime,
             AppointmentType type,
+            TimeSpan? endTime = null,
             Guid? tenantId = null) : base(id)
         {
             CitizenId = citizenId;
             DepartmentId = departmentId;
             AppointmentDate = appointmentDate;
             StartTime = startTime;
-            EndTime = endTime;
+            EndTime = endTime ?? startTime.Add(TimeSpan.FromMinutes(30)); // Default 30 min duration
             Type = type;
+            Status = AppointmentStatus.Scheduled;
+            TenantId = tenantId;
+            AppointmentNumber = GenerateAppointmentNumber();
+            SendReminder = true;
+        }
+
+        // Overload for service compatibility (when purpose string is provided)
+        public Appointment(
+            Guid id,
+            Guid citizenId,
+            Guid departmentId,
+            DateTime appointmentDate,
+            string purpose,
+            Guid? tenantId = null) : base(id)
+        {
+            CitizenId = citizenId;
+            DepartmentId = departmentId;
+            AppointmentDate = appointmentDate;
+            Purpose = purpose;
+            StartTime = TimeSpan.FromHours(9); // Default 9 AM
+            EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(30)); // Default 30 min duration
+            Type = AppointmentType.InPerson; // Default type
             Status = AppointmentStatus.Scheduled;
             TenantId = tenantId;
             AppointmentNumber = GenerateAppointmentNumber();

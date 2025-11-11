@@ -49,7 +49,7 @@ public class EmergencyAlertAppService : CrudAppService<EmergencyAlert, Emergency
     public async Task<List<EmergencyAlertDto>> GetActiveAlertsAsync()
     {
         var alerts = await _alertRepository.GetListAsync();
-        var activeAlerts = alerts.Where(a => a.Status == EmergencyAlertStatus.Active)
+        var activeAlerts = alerts.Where(a => a.Status == (AlertStatus)EmergencyAlertStatus.Active)
                                  .OrderByDescending(a => a.CreationTime)
                                  .ToList();
 
@@ -74,7 +74,7 @@ public class EmergencyAlertAppService : CrudAppService<EmergencyAlert, Emergency
 
         // Get alerts for citizen's ward/area
         var alerts = await _alertRepository.GetListAsync();
-        var areaAlerts = alerts.Where(a => a.Status == EmergencyAlertStatus.Active &&
+        var areaAlerts = alerts.Where(a => a.Status == (AlertStatus)EmergencyAlertStatus.Active &&
                                          (string.IsNullOrEmpty(a.AffectedArea) ||
                                           a.AffectedArea.Contains(citizen.Address ?? string.Empty)))
                               .OrderByDescending(a => a.CreationTime)
@@ -149,14 +149,14 @@ public class EmergencyAlertAppService : CrudAppService<EmergencyAlert, Emergency
 
         var alert = new EmergencyAlert(
             _guidGenerator.Create(),
-            input.AlertType,
-            input.Severity,
             input.Title,
-            input.Message
+            input.Message,
+            input.Type,
+            input.Severity
         );
 
         alert.AffectedArea = input.AffectedArea;
-        alert.Status = EmergencyAlertStatus.Active;
+        alert.Status = (AlertStatus)EmergencyAlertStatus.Active;
 
         var createdAlert = await _alertRepository.InsertAsync(alert);
 

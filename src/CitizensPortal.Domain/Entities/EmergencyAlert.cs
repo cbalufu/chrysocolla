@@ -89,10 +89,14 @@ namespace CitizensPortal.Domain.Entities
         public Guid EmergencyAlertId { get; set; }
         public EmergencyAlert EmergencyAlert { get; set; }
 
+        // Alias for backward compatibility
+        public Guid AlertId => EmergencyAlertId;
+
         public Guid CitizenId { get; set; }
         public Citizen Citizen { get; set; }
 
         public DateTime AcknowledgedDate { get; set; }
+        public DateTime AcknowledgedAt { get => AcknowledgedDate; set => AcknowledgedDate = value; } // Alias
         public bool IsSafe { get; set; }
         public string Notes { get; set; }
 
@@ -106,6 +110,17 @@ namespace CitizensPortal.Domain.Entities
             IsSafe = isSafe;
             AcknowledgedDate = DateTime.UtcNow;
         }
+
+        // Overload for service compatibility
+        public AlertAcknowledgement(Guid id, Guid alertId, Guid citizenId, DateTime acknowledgedDate, bool isSafe, string notes = null)
+        {
+            Id = id;
+            EmergencyAlertId = alertId;
+            CitizenId = citizenId;
+            AcknowledgedDate = acknowledgedDate;
+            IsSafe = isSafe;
+            Notes = notes;
+        }
     }
 
     /// <summary>
@@ -116,6 +131,7 @@ namespace CitizensPortal.Domain.Entities
         public Guid? TenantId { get; set; }
 
         public string Name { get; set; }
+        public string RouteName => Name; // Alias for Name
         public string Description { get; set; }
 
         // Starting point

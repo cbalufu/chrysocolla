@@ -28,6 +28,7 @@ namespace CitizensPortal.Application.Contracts.DTOs.Certificate
         public CertificateType CertificateType { get; set; }
         public string Purpose { get; set; }
         public string RequestDetails { get; set; }
+        public string AdditionalInfo { get; set; }
         public string SubjectFullName { get; set; }
         public string SubjectNationalId { get; set; }
         public DateTime? SubjectDateOfBirth { get; set; }

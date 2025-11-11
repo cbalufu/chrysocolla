@@ -22,6 +22,7 @@ namespace CitizensPortal.Domain.Shared.Enums
 
     public enum TicketStatus
     {
+        Pending,
         Open,
         InProgress,
         WaitingForCustomer,

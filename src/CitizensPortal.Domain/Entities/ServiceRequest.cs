@@ -38,6 +38,7 @@ namespace CitizensPortal.Domain.Entities
         public Guid? AssignedDepartmentId { get; set; }
 
         // Scheduling
+        public DateTime RequestDate { get; set; } // Date when request was created
         public DateTime? ScheduledDate { get; set; }
         public DateTime? CompletedDate { get; set; }
 
@@ -77,6 +78,7 @@ namespace CitizensPortal.Domain.Entities
             Priority = ServiceRequestPriority.Medium;
             TenantId = tenantId;
             RequestNumber = GenerateRequestNumber();
+            RequestDate = DateTime.UtcNow;
             Attachments = new List<ServiceRequestAttachment>();
             Updates = new List<ServiceRequestUpdate>();
         }

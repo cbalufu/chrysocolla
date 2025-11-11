@@ -22,6 +22,7 @@ namespace CitizensPortal.Domain.Entities
 
         public string Purpose { get; set; }
         public string RequestDetails { get; set; } // JSON data specific to certificate type
+        public string AdditionalInfo { get; set; } // Additional information for the request
 
         // Subject of the certificate (might be different from requester)
         public string SubjectFullName { get; set; }
@@ -122,8 +123,14 @@ namespace CitizensPortal.Domain.Entities
         public Guid CertificateRequestId { get; set; }
         public CertificateRequest CertificateRequest { get; set; }
 
+        // Alias for backward compatibility
+        public Guid RequestId => CertificateRequestId;
+
         public string CertificateNumber { get; set; }
         public CertificateType Type { get; set; }
+
+        // Status field for tracking certificate state
+        public CertificateRequestStatus Status { get; set; }
 
         public DateTime IssueDate { get; set; }
         public DateTime? ExpiryDate { get; set; }
@@ -157,6 +164,7 @@ namespace CitizensPortal.Domain.Entities
             CertificateNumber = GenerateCertificateNumber();
             VerificationCode = GenerateVerificationCode();
             IsVerified = true;
+            Status = CertificateRequestStatus.Issued;
         }
 
         private string GenerateCertificateNumber()

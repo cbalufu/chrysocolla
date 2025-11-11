@@ -2,6 +2,7 @@ namespace CitizensPortal.Domain.Shared.Enums
 {
     public enum AppointmentStatus
     {
+        Requested,
         Scheduled,
         Confirmed,
         InProgress,

@@ -22,6 +22,7 @@ namespace CitizensPortal.Domain.Entities
         public decimal Amount { get; set; }
         public decimal AmountPaid { get; set; }
         public decimal Balance { get; set; }
+        public decimal AmountDue => Balance; // Alias for Balance
 
         public DateTime IssueDate { get; set; }
         public DateTime BillDate { get; set; } // Alias for IssueDate, used by some services

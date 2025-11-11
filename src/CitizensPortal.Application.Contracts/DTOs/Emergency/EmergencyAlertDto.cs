@@ -31,8 +31,10 @@ namespace CitizensPortal.Application.Contracts.DTOs.Emergency
         public string Message { get; set; }
         public string DetailedInformation { get; set; }
         public AlertType Type { get; set; }
+        public AlertType AlertType { get => Type; set => Type = value; } // Alias
         public AlertSeverity Severity { get; set; }
         public DateTime? ExpiryDate { get; set; }
+        public string AffectedArea { get; set; } // Text description of affected area
         public string AffectedWards { get; set; }
         public string EmergencyContact { get; set; }
         public string EmergencyPhone { get; set; }

@@ -19,6 +19,7 @@ namespace CitizensPortal.Domain.Entities
         public string PaymentNumber { get; set; }
         public decimal Amount { get; set; }
         public PaymentMethod Method { get; set; }
+        public PaymentMethod PaymentMethod => Method; // Alias
         public PaymentStatus Status { get; set; }
         public PaymentGateway? Gateway { get; set; }
 
