@@ -14,12 +14,17 @@ public sealed class Citizen : IMultiTenant
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty; // BCrypt hashed password
     public string PhoneNumber { get; set; } = string.Empty;
     public string? NationalId { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string Address { get; set; } = string.Empty;
 
+    public string? RefreshToken { get; set; } // For JWT refresh token
+    public DateTime? RefreshTokenExpiryTime { get; set; }
+
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    public DateTime? LastLoginAt { get; set; }
     public bool IsActive { get; set; }
 }

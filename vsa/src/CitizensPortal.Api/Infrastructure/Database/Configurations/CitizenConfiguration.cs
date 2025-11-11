@@ -27,6 +27,10 @@ public sealed class CitizenConfiguration : IEntityTypeConfiguration<Citizen>
         builder.HasIndex(c => new { c.TenantId, c.Email })
             .IsUnique();
 
+        builder.Property(c => c.PasswordHash)
+            .IsRequired()
+            .HasMaxLength(500);
+
         builder.Property(c => c.PhoneNumber)
             .IsRequired()
             .HasMaxLength(20);
@@ -43,10 +47,17 @@ public sealed class CitizenConfiguration : IEntityTypeConfiguration<Citizen>
             .IsRequired()
             .HasMaxLength(500);
 
+        builder.Property(c => c.RefreshToken)
+            .HasMaxLength(500);
+
+        builder.Property(c => c.RefreshTokenExpiryTime);
+
         builder.Property(c => c.CreatedAt)
             .IsRequired();
 
         builder.Property(c => c.UpdatedAt);
+
+        builder.Property(c => c.LastLoginAt);
 
         builder.Property(c => c.IsActive)
             .IsRequired();
