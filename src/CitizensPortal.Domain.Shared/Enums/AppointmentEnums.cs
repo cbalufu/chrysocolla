@@ -1,4 +1,4 @@
-namespace CitizensPortal.Domain.Enums
+namespace CitizensPortal.Domain.Shared.Enums
 {
     public enum AppointmentStatus
     {
@@ -16,16 +16,5 @@ namespace CitizensPortal.Domain.Enums
         InPerson,
         Virtual,
         Phone
-    }
-
-    public enum DayOfWeek
-    {
-        Sunday = 0,
-        Monday = 1,
-        Tuesday = 2,
-        Wednesday = 3,
-        Thursday = 4,
-        Friday = 5,
-        Saturday = 6
     }
 }

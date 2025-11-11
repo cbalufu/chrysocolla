@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
-using CitizensPortal.Domain.Enums;
+using CitizensPortal.Domain.Shared.Enums;
 
 namespace CitizensPortal.Domain.Entities
 {

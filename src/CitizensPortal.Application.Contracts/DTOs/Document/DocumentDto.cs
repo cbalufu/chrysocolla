@@ -1,6 +1,6 @@
 using System;
 using Volo.Abp.Application.Dtos;
-using CitizensPortal.Domain.Enums;
+using CitizensPortal.Domain.Shared.Enums;
 
 namespace CitizensPortal.Application.Contracts.DTOs.Document
 {

@@ -8,7 +8,7 @@ using Volo.Abp.Domain.Repositories;
 using CitizensPortal.Application.Contracts.DTOs.Infrastructure;
 using CitizensPortal.Application.Contracts.Services;
 using CitizensPortal.Domain.Entities;
-using CitizensPortal.Domain.Enums;
+using CitizensPortal.Domain.Shared.Enums;
 using CitizensPortal.Permissions;
 
 namespace CitizensPortal.Application.Services;

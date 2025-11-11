@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using CitizensPortal.Domain.Enums;
+using CitizensPortal.Domain.Shared.Enums;
 
 namespace CitizensPortal.Application.Contracts.DTOs.IssueReport
 {

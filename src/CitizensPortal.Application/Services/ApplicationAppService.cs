@@ -10,7 +10,7 @@ using CitizensPortal.Application.Contracts.DTOs.Application;
 using CitizensPortal.Application.Contracts.Services;
 using CitizensPortal.Domain.Entities;
 using CitizensPortal.Domain.Repositories;
-using CitizensPortal.Domain.Enums;
+using CitizensPortal.Domain.Shared.Enums;
 using CitizensPortal.Permissions;
 
 namespace CitizensPortal.Application.Services;

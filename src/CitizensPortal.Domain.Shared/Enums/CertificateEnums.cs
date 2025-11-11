@@ -1,4 +1,4 @@
-namespace CitizensPortal.Domain.Enums
+namespace CitizensPortal.Domain.Shared.Enums
 {
     public enum CertificateType
     {

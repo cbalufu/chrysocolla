@@ -10,7 +10,7 @@ using Volo.Abp.Users;
 using CitizensPortal.Application.Contracts.DTOs.ServiceRequest;
 using CitizensPortal.Application.Contracts.Services;
 using CitizensPortal.Domain.Entities;
-using CitizensPortal.Domain.Enums;
+using CitizensPortal.Domain.Shared.Enums;
 using CitizensPortal.Domain.Repositories;
 using CitizensPortal.Permissions;
 

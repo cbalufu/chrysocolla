@@ -1,6 +1,6 @@
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
-using CitizensPortal.Domain.Enums;
+using CitizensPortal.Domain.Shared.Enums;
 
 namespace CitizensPortal.Domain.Entities
 {
@@ -11,7 +11,7 @@ namespace CitizensPortal.Domain.Entities
 
         public ApplicationStatus FromStatus { get; set; }
         public ApplicationStatus ToStatus { get; set; }
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
         public Guid? ChangedByUserId { get; set; }
 
         protected ApplicationStatusHistory()
