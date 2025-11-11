@@ -20,6 +20,7 @@ namespace CitizensPortal.Domain.Entities
         public ProjectStatus Status { get; set; }
 
         public string Location { get; set; }
+        public string Ward { get; set; } // Ward/district where project is located
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
 

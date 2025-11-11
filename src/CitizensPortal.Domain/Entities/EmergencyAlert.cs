@@ -28,6 +28,7 @@ namespace CitizensPortal.Domain.Entities
 
         // Affected area (GeoJSON polygon)
         public string AffectedAreaGeoJson { get; set; }
+        public string AffectedArea { get; set; } // Text description of affected area
         public string AffectedWards { get; set; } // Comma-separated ward names
 
         // Contact information

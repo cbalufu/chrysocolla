@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Volo.Abp.Application.Dtos;
 using CitizensPortal.Domain.Shared.Enums;
 
@@ -35,10 +36,25 @@ namespace CitizensPortal.Application.Contracts.DTOs.Payment
         public decimal Amount { get; set; }
         public PaymentMethod Method { get; set; }
         public PaymentGateway? Gateway { get; set; }
+
+        // Aliases for backward compatibility with services
+        public PaymentMethod PaymentMethod { get => Method; set => Method = value; }
+        public PaymentGateway? PaymentGateway { get => Gateway; set => Gateway = value; }
+
         public string PayerName { get; set; }
         public string PayerEmail { get; set; }
         public string PayerPhone { get; set; }
         public List<CreatePaymentAllocationDto> Allocations { get; set; }
+
+        // Alias for BillIds (computed from Allocations)
+        public List<Guid> BillIds
+        {
+            get => Allocations?.Select(a => a.BillId).ToList();
+            set
+            {
+                Allocations = value?.Select(id => new CreatePaymentAllocationDto { BillId = id }).ToList();
+            }
+        }
     }
 
     public class CreatePaymentAllocationDto

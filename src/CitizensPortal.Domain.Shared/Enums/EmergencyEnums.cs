@@ -29,4 +29,13 @@ namespace CitizensPortal.Domain.Shared.Enums
         Expired,
         Cancelled
     }
+
+    // Alias for backward compatibility
+    public enum EmergencyAlertStatus
+    {
+        Active,
+        Resolved,
+        Expired,
+        Cancelled
+    }
 }

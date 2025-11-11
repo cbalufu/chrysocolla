@@ -20,6 +20,7 @@ namespace CitizensPortal.Domain.Shared.Enums
         UnderReview,
         PendingPayment,
         Processing,
+        Issued,
         ReadyForCollection,
         Collected,
         Mailed,

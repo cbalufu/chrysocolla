@@ -26,5 +26,15 @@ namespace CitizensPortal.Domain.Entities
             ToStatus = toStatus;
             Notes = notes;
         }
+
+        // Overload for service compatibility (when only toStatus and timestamp are provided)
+        public ApplicationStatusHistory(Guid id, Guid applicationId, ApplicationStatus toStatus, DateTime timestamp, string notes = null)
+        {
+            Id = id;
+            ApplicationId = applicationId;
+            FromStatus = ApplicationStatus.Draft; // Default from status
+            ToStatus = toStatus;
+            Notes = notes;
+        }
     }
 }

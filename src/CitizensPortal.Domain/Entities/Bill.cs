@@ -24,6 +24,7 @@ namespace CitizensPortal.Domain.Entities
         public decimal Balance { get; set; }
 
         public DateTime IssueDate { get; set; }
+        public DateTime BillDate { get; set; } // Alias for IssueDate, used by some services
         public DateTime DueDate { get; set; }
         public DateTime? PaidDate { get; set; }
 
@@ -52,6 +53,7 @@ namespace CitizensPortal.Domain.Entities
             Balance = amount;
             AmountPaid = 0;
             IssueDate = DateTime.UtcNow;
+            BillDate = DateTime.UtcNow;
             DueDate = dueDate;
             Period = period;
             Status = BillStatus.Unpaid;

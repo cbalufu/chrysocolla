@@ -48,15 +48,18 @@ namespace CitizensPortal.Domain.Entities
             Guid citizenId,
             decimal amount,
             PaymentMethod method,
+            PaymentGateway? gateway = null,
+            string paymentNumber = null,
             Guid? tenantId = null) : base(id)
         {
             CitizenId = citizenId;
             Amount = amount;
             Method = method;
+            Gateway = gateway;
             Status = PaymentStatus.Pending;
             PaymentDate = DateTime.UtcNow;
             TenantId = tenantId;
-            PaymentNumber = GeneratePaymentNumber();
+            PaymentNumber = paymentNumber ?? GeneratePaymentNumber();
             Allocations = new List<PaymentAllocation>();
         }
 

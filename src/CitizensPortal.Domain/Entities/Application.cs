@@ -28,6 +28,7 @@ namespace CitizensPortal.Domain.Entities
 
         // Tracking
         public DateTime SubmissionDate { get; set; }
+        public DateTime? SubmittedDate { get; set; } // Alias for SubmissionDate, used by some services
         public DateTime? ApprovalDate { get; set; }
         public DateTime? RejectionDate { get; set; }
         public Guid? ReviewedByUserId { get; set; }

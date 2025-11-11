@@ -2,6 +2,7 @@ namespace CitizensPortal.Domain.Shared.Enums
 {
     public enum ProjectStatus
     {
+        Planning,
         Planned,
         Approved,
         InProgress,

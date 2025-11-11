@@ -34,6 +34,7 @@ namespace CitizensPortal.Domain.Entities
         public string DeliveryContactNumber { get; set; }
 
         // Processing
+        public DateTime? RequestDate { get; set; } // Date when request was submitted
         public DateTime? ProcessedDate { get; set; }
         public Guid? ProcessedByUserId { get; set; }
         public DateTime? ReadyDate { get; set; }
@@ -82,6 +83,7 @@ namespace CitizensPortal.Domain.Entities
             if (Status == CertificateRequestStatus.Draft)
             {
                 Status = CertificateRequestStatus.Submitted;
+                RequestDate = DateTime.UtcNow;
             }
         }
     }

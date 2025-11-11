@@ -27,6 +27,7 @@ namespace CitizensPortal.Domain.Entities
         public string ContentType { get; set; }
         public long FileSize { get; set; }
         public string FileHash { get; set; } // For integrity verification
+        public DateTime UploadDate { get; set; } // Date when document was uploaded
 
         public DateTime? ExpiryDate { get; set; }
         public bool RequiresRenewal { get; set; }
@@ -68,6 +69,7 @@ namespace CitizensPortal.Domain.Entities
             Status = DocumentStatus.Active;
             AccessLevel = DocumentAccessLevel.Private;
             TenantId = tenantId;
+            UploadDate = DateTime.UtcNow;
             AccessLog = new List<DocumentAccess>();
         }
 
