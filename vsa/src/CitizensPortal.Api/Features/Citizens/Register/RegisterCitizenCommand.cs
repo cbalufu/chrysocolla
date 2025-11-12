@@ -7,6 +7,7 @@ public sealed record RegisterCitizenCommand(
     string FirstName,
     string LastName,
     string Email,
+    string Password,
     string PhoneNumber,
     string? NationalId,
     DateTime DateOfBirth,

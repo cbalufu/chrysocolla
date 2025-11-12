@@ -45,6 +45,9 @@ public sealed class RegisterCitizenCommandHandler
             }
         }
 
+        // Hash password using BCrypt
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
         // Create new citizen
         var citizen = new Citizen
         {
@@ -52,6 +55,7 @@ public sealed class RegisterCitizenCommandHandler
             FirstName = request.FirstName,
             LastName = request.LastName,
             Email = request.Email,
+            PasswordHash = passwordHash,
             PhoneNumber = request.PhoneNumber,
             NationalId = request.NationalId,
             DateOfBirth = request.DateOfBirth,

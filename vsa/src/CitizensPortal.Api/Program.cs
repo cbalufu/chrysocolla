@@ -1,10 +1,14 @@
 using Carter;
+using CitizensPortal.Api.Infrastructure.Authentication;
 using CitizensPortal.Api.Infrastructure.Behaviors;
 using CitizensPortal.Api.Infrastructure.Database;
 using CitizensPortal.Api.Infrastructure.MultiTenancy;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Text;
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -33,6 +37,33 @@ try
 
     // Multi-tenancy
     builder.Services.AddScoped<ITenantAccessor, TenantAccessor>();
+
+    // Authentication
+    builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]
+                    ?? throw new InvalidOperationException("JWT secret not configured"))),
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+    builder.Services.AddAuthorization();
 
     // Database
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -86,6 +117,10 @@ try
     app.UseMiddleware<TenantMiddleware>();
 
     app.UseHttpsRedirection();
+
+    // Authentication & Authorization (after tenant middleware, before endpoints)
+    app.UseAuthentication();
+    app.UseAuthorization();
 
     // Carter endpoints
     app.MapCarter();

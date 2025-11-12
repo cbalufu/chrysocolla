@@ -19,6 +19,14 @@ public sealed class RegisterCitizenCommandValidator : AbstractValidator<Register
             .EmailAddress().WithMessage("Invalid email format")
             .MaximumLength(255).WithMessage("Email must not exceed 255 characters");
 
+        RuleFor(x => x.Password)
+            .NotEmpty().WithMessage("Password is required")
+            .MinimumLength(8).WithMessage("Password must be at least 8 characters")
+            .MaximumLength(100).WithMessage("Password must not exceed 100 characters")
+            .Matches(@"[A-Z]").WithMessage("Password must contain at least one uppercase letter")
+            .Matches(@"[a-z]").WithMessage("Password must contain at least one lowercase letter")
+            .Matches(@"[0-9]").WithMessage("Password must contain at least one number");
+
         RuleFor(x => x.PhoneNumber)
             .NotEmpty().WithMessage("Phone number is required")
             .MaximumLength(20).WithMessage("Phone number must not exceed 20 characters")
