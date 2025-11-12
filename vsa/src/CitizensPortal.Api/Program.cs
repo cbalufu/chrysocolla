@@ -63,7 +63,12 @@ try
         };
     });
 
-    builder.Services.AddAuthorization();
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+        options.AddPolicy("StaffOrAdmin", policy => policy.RequireRole("Admin", "Staff"));
+        options.AddPolicy("CitizenOnly", policy => policy.RequireRole("Citizen"));
+    });
 
     // Database
     builder.Services.AddDbContext<ApplicationDbContext>(options =>

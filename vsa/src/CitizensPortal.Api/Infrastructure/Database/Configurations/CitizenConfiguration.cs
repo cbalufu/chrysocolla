@@ -61,5 +61,11 @@ public sealed class CitizenConfiguration : IEntityTypeConfiguration<Citizen>
 
         builder.Property(c => c.IsActive)
             .IsRequired();
+
+        builder.Property(c => c.Role)
+            .IsRequired()
+            .HasMaxLength(50);
+
+        builder.HasIndex(c => new { c.TenantId, c.Role });
     }
 }

@@ -52,7 +52,8 @@ public sealed class RefreshCommandHandler : IRequestHandler<RefreshCommand, Erro
         var accessToken = _jwtTokenService.GenerateAccessToken(
             citizen.Id,
             citizen.Email,
-            citizen.TenantId);
+            citizen.TenantId,
+            citizen.Role);
 
         var newRefreshToken = _jwtTokenService.GenerateRefreshToken();
         var refreshTokenExpiry = _jwtTokenService.GetRefreshTokenExpiryTime();

@@ -52,7 +52,8 @@ public sealed class LoginCommandHandler : IRequestHandler<LoginCommand, ErrorOr<
         var accessToken = _jwtTokenService.GenerateAccessToken(
             citizen.Id,
             citizen.Email,
-            citizen.TenantId);
+            citizen.TenantId,
+            citizen.Role);
 
         var refreshToken = _jwtTokenService.GenerateRefreshToken();
         var refreshTokenExpiry = _jwtTokenService.GetRefreshTokenExpiryTime();

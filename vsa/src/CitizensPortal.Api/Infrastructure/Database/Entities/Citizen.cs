@@ -27,4 +27,5 @@ public sealed class Citizen : IMultiTenant
     public DateTime? UpdatedAt { get; set; }
     public DateTime? LastLoginAt { get; set; }
     public bool IsActive { get; set; }
+    public string Role { get; set; } = "Citizen"; // Citizen, Admin, Staff
 }
