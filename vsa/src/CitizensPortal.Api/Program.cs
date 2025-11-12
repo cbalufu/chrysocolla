@@ -2,6 +2,7 @@ using Carter;
 using CitizensPortal.Api.Infrastructure.Authentication;
 using CitizensPortal.Api.Infrastructure.Behaviors;
 using CitizensPortal.Api.Infrastructure.Database;
+using CitizensPortal.Api.Infrastructure.Email;
 using CitizensPortal.Api.Infrastructure.MultiTenancy;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -40,6 +41,9 @@ try
 
     // Authentication
     builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+    // Email
+    builder.Services.AddScoped<IEmailService, EmailService>();
 
     builder.Services.AddAuthentication(options =>
     {

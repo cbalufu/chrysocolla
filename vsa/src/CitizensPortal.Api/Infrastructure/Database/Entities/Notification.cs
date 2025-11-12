@@ -13,17 +13,12 @@ public sealed class Notification : IMultiTenant
     public Guid CitizenId { get; set; }
     public Citizen Citizen { get; set; } = null!;
 
-    public string Type { get; set; } = string.Empty; // Email, SMS, Push, InApp
-    public string Category { get; set; } = string.Empty; // Alert, Reminder, Update, etc.
-    public string Title { get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty; // Bill, Application, Issue, Ticket, Announcement, EmergencyAlert
+    public string Priority { get; set; } = string.Empty; // Low, Medium, High, Urgent
+    public string Subject { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
 
-    public bool IsRead { get; set; }
-    public DateTime? ReadAt { get; set; }
-
-    public string? ActionUrl { get; set; } // Deep link to relevant page
-    public string? MetadataJson { get; set; } // Additional data as JSON
-
-    public DateTime CreatedAt { get; set; }
-    public DateTime? SentAt { get; set; }
+    public bool IsRead { get; set; } = false;
+    public DateTime SentDate { get; set; }
+    public DateTime? ReadDate { get; set; }
 }

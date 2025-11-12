@@ -9,17 +9,18 @@ public sealed class NotificationConfiguration : IEntityTypeConfiguration<Notific
     public void Configure(EntityTypeBuilder<Notification> builder)
     {
         builder.ToTable("Notifications");
+
         builder.HasKey(n => n.Id);
 
         builder.Property(n => n.Type)
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.Property(n => n.Category)
+        builder.Property(n => n.Priority)
             .IsRequired()
-            .HasMaxLength(100);
+            .HasMaxLength(20);
 
-        builder.Property(n => n.Title)
+        builder.Property(n => n.Subject)
             .IsRequired()
             .HasMaxLength(200);
 
@@ -27,18 +28,23 @@ public sealed class NotificationConfiguration : IEntityTypeConfiguration<Notific
             .IsRequired()
             .HasMaxLength(2000);
 
-        builder.Property(n => n.ActionUrl)
-            .HasMaxLength(500);
+        builder.Property(n => n.IsRead)
+            .IsRequired();
 
-        builder.Property(n => n.MetadataJson)
-            .HasMaxLength(4000);
+        builder.Property(n => n.SentDate)
+            .IsRequired();
 
-        builder.HasIndex(n => new { n.TenantId, n.CitizenId, n.IsRead });
-        builder.HasIndex(n => n.CreatedAt);
+        builder.Property(n => n.ReadDate);
 
+        // Relationships
         builder.HasOne(n => n.Citizen)
             .WithMany()
             .HasForeignKey(n => n.CitizenId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Indexes
+        builder.HasIndex(n => new { n.TenantId, n.CitizenId });
+        builder.HasIndex(n => new { n.CitizenId, n.IsRead });
+        builder.HasIndex(n => n.SentDate);
     }
 }
