@@ -39,6 +39,7 @@ public sealed class ApplicationDbContext : DbContext
     public DbSet<SupportTicket> SupportTickets => Set<SupportTicket>();
     public DbSet<TicketMessage> TicketMessages => Set<TicketMessage>();
     public DbSet<Certificate> Certificates => Set<Certificate>();
+    public DbSet<CertificateRequest> CertificateRequests => Set<CertificateRequest>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
