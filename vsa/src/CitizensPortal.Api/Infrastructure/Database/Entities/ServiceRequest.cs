@@ -30,4 +30,5 @@ public sealed class ServiceRequest : IMultiTenant
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
+    public string? CompletionNotes { get; set; }
 }
