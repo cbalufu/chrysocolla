@@ -1,24 +1,4 @@
-## MODIFIED Requirements
-
-### Requirement: Service Request Submission
-The system SHALL allow citizens to submit service requests with service type, title, description, priority, location, and preferred service date.
-
-#### Scenario: Submit service request
-- **WHEN** citizen submits service request with required fields
-- **THEN** the system creates request with status "Submitted"
-- **AND** generates unique request number in format SR-{TYPE}-{YYYYMMDD}-{GUID}
-- **AND** assigns priority level (Low, Medium, High)
-- **AND** validates service type is valid
-- **AND** returns request details with request number
-
-### Requirement: Request Status Workflow
-The system SHALL track requests through statuses: Submitted, Assigned, InProgress, Completed, Cancelled.
-
-#### Scenario: Progress request to completion
-- **WHEN** service request is created (status: Submitted)
-- **THEN** admin assigns it to staff (status: "Assigned", sets AssignedToUserId and AssignedAt)
-- **AND** admin starts work (status: "InProgress")
-- **AND** admin completes work (status: "Completed", sets CompletedAt and CompletionNotes)
+## ADDED Requirements
 
 ### Requirement: Service Types
 The system SHALL support service types: WasteCollection, StreetRepair, StreetLighting, TreeMaintenance, AnimalControl, Other.
@@ -27,14 +7,6 @@ The system SHALL support service types: WasteCollection, StreetRepair, StreetLig
 - **WHEN** citizen creates service request with type "WasteCollection"
 - **THEN** the system generates request number starting with "SR-WAS-"
 - **AND** saves service type as "WasteCollection"
-
-### Requirement: Priority Levels
-The system SHALL support priority levels: Low, Medium, High.
-
-#### Scenario: Set high priority
-- **WHEN** citizen submits urgent service request with priority "High"
-- **THEN** the system saves priority as "High"
-- **AND** admin can filter high priority requests
 
 ### Requirement: Citizen Request Management
 The system SHALL allow citizens to view their own service requests with filtering.
@@ -67,6 +39,36 @@ The system SHALL allow admin/staff to view all requests and update status.
 - **AND** updates status and UpdatedAt timestamp
 - **AND** if assigning to user, sets AssignedToUserId and AssignedAt
 - **AND** if completing, sets CompletedAt and allows CompletionNotes
+
+## MODIFIED Requirements
+
+### Requirement: Service Request Submission
+The system SHALL allow citizens to submit service requests with service type, title, description, priority, location, and preferred service date.
+
+#### Scenario: Submit service request
+- **WHEN** citizen submits service request with required fields
+- **THEN** the system creates request with status "Submitted"
+- **AND** generates unique request number in format SR-{TYPE}-{YYYYMMDD}-{GUID}
+- **AND** assigns priority level (Low, Medium, High)
+- **AND** validates service type is valid
+- **AND** returns request details with request number
+
+### Requirement: Request Status Workflow
+The system SHALL track requests through statuses: Submitted, Assigned, InProgress, Completed, Cancelled.
+
+#### Scenario: Progress request to completion
+- **WHEN** service request is created (status: Submitted)
+- **THEN** admin assigns it to staff (status: "Assigned", sets AssignedToUserId and AssignedAt)
+- **AND** admin starts work (status: "InProgress")
+- **AND** admin completes work (status: "Completed", sets CompletedAt and CompletionNotes)
+
+### Requirement: Priority Levels
+The system SHALL support priority levels: Low, Medium, High.
+
+#### Scenario: Set high priority
+- **WHEN** citizen submits urgent service request with priority "High"
+- **THEN** the system saves priority as "High"
+- **AND** admin can filter high priority requests
 
 ### Requirement: Multi-tenant Isolation
 The system SHALL ensure complete data isolation between tenants.

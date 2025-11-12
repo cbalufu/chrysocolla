@@ -1,3 +1,40 @@
+## ADDED Requirements
+
+### Requirement: Ticket Message Validation
+The system SHALL validate ticket messages have required content.
+
+#### Scenario: Validate message content
+- **WHEN** adding message to ticket
+- **THEN** the system validates message is not empty
+- **AND** validates message does not exceed 5000 characters
+- **AND** validates AttachmentUrls is valid JSON if provided
+
+### Requirement: Citizen Ticket Management
+The system SHALL allow citizens to view and interact with their own tickets.
+
+#### Scenario: List my tickets
+- **WHEN** citizen requests their tickets
+- **THEN** the system returns only tickets belonging to that citizen
+- **AND** allows filtering by status (Open, InProgress, Resolved, Closed)
+- **AND** allows filtering by category
+- **AND** includes message count for each ticket
+- **AND** orders by CreatedAt descending
+
+#### Scenario: View ticket with messages
+- **WHEN** citizen requests specific ticket by ID
+- **THEN** the system verifies ownership
+- **AND** returns full ticket details
+- **AND** includes all messages ordered by CreatedAt ascending
+- **AND** shows sender name and IsStaff flag for each message
+
+### Requirement: Ticket Ownership Verification
+The system SHALL ensure citizens can only access their own tickets.
+
+#### Scenario: Access denied for other citizen's ticket
+- **WHEN** citizen attempts to view ticket belonging to another citizen
+- **THEN** the system returns 403 Forbidden error
+- **AND** does not reveal ticket details
+
 ## MODIFIED Requirements
 
 ### Requirement: Ticket Creation
@@ -51,41 +88,6 @@ The system SHALL support threaded message conversations between citizens and sta
 - **AND** timestamps message with CreatedAt
 - **AND** updates ticket UpdatedAt timestamp
 - **AND** allows optional AttachmentUrls as JSON array
-
-### Requirement: Ticket Message Validation
-The system SHALL validate ticket messages have required content.
-
-#### Scenario: Validate message content
-- **WHEN** adding message to ticket
-- **THEN** the system validates message is not empty
-- **AND** validates message does not exceed 5000 characters
-- **AND** validates AttachmentUrls is valid JSON if provided
-
-### Requirement: Citizen Ticket Management
-The system SHALL allow citizens to view and interact with their own tickets.
-
-#### Scenario: List my tickets
-- **WHEN** citizen requests their tickets
-- **THEN** the system returns only tickets belonging to that citizen
-- **AND** allows filtering by status (Open, InProgress, Resolved, Closed)
-- **AND** allows filtering by category
-- **AND** includes message count for each ticket
-- **AND** orders by CreatedAt descending
-
-#### Scenario: View ticket with messages
-- **WHEN** citizen requests specific ticket by ID
-- **THEN** the system verifies ownership
-- **AND** returns full ticket details
-- **AND** includes all messages ordered by CreatedAt ascending
-- **AND** shows sender name and IsStaff flag for each message
-
-### Requirement: Ticket Ownership Verification
-The system SHALL ensure citizens can only access their own tickets.
-
-#### Scenario: Access denied for other citizen's ticket
-- **WHEN** citizen attempts to view ticket belonging to another citizen
-- **THEN** the system returns 403 Forbidden error
-- **AND** does not reveal ticket details
 
 ### Requirement: Multi-tenant Isolation
 The system SHALL ensure complete data isolation between tenants.

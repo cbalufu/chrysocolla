@@ -1,21 +1,6 @@
-## MODIFIED Requirements
+## ADDED Requirements
 
-### Requirement: Citizen Registration
-The system SHALL allow new citizens to register with their personal information and receive JWT authentication tokens.
-
-#### Scenario: Successful registration
-- **WHEN** a new citizen provides valid registration data (first name, last name, email, password, phone number)
-- **THEN** the system creates a citizen record with hashed password using BCrypt
-- **AND** assigns default role "Citizen"
-- **AND** generates JWT access token and refresh token
-- **AND** returns authentication response with tokens and citizen details
-
-#### Scenario: Duplicate email registration
-- **WHEN** a citizen attempts to register with an email that already exists
-- **THEN** the system rejects the registration
-- **AND** returns error "Email already in use"
-
-### Requirement: Citizen Authentication
+### Requirement: JWT Authentication
 The system SHALL provide JWT-based authentication for citizens to access protected endpoints.
 
 #### Scenario: Successful login
@@ -59,6 +44,23 @@ The system SHALL support role-based access control with roles: Citizen, Staff, A
 - **THEN** the system grants access
 - **AND** when user with "Citizen" role accesses admin endpoint
 - **THEN** the system returns 403 Forbidden
+
+## MODIFIED Requirements
+
+### Requirement: Citizen Registration
+The system SHALL allow new citizens to register with their personal information and receive JWT authentication tokens.
+
+#### Scenario: Successful registration
+- **WHEN** a new citizen provides valid registration data (first name, last name, email, password, phone number)
+- **THEN** the system creates a citizen record with hashed password using BCrypt
+- **AND** assigns default role "Citizen"
+- **AND** generates JWT access token and refresh token
+- **AND** returns authentication response with tokens and citizen details
+
+#### Scenario: Duplicate email registration
+- **WHEN** a citizen attempts to register with an email that already exists
+- **THEN** the system rejects the registration
+- **AND** returns error "Email already in use"
 
 ## MODIFIED Data Model
 
