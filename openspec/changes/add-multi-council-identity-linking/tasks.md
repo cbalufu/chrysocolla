@@ -2,12 +2,13 @@
 
 ## Implementation Status
 
-**Current Status**: Minimal Viable Implementation (MVI) Complete
+**Current Status**: Feature-Complete MVP
 
-The foundation has been implemented with core functionality that enables citizens to create and manage federated profiles across councils. This MVI includes:
-- ✅ Complete Phase 1 (Foundation)
-- ✅ Core Phase 4 functionality (Federated Profile Management)
-- 🔄 Remaining phases can be implemented incrementally as needed
+A feature-complete MVP has been implemented with full citizen control and council customization. Implementation includes:
+- ✅ Complete Phase 1 (Foundation - Database & Security)
+- ✅ Complete Phase 4 (Federated Profile & Cross-Council Aggregation)
+- ✅ Phase 3 Core Features (Council Branding & Customization)
+- 🔄 Remaining phases (2, 5, 6, 7, 8) can be added incrementally
 
 ## Phase 1: Foundation (Database and Core Entities) ✅ COMPLETE
 
@@ -110,6 +111,60 @@ The foundation has been implemented with core functionality that enables citizen
   - `AggregatedBillDto` with council identification
   - `AggregatedIssueDto` with council identification
   - `CrossCouncilSummaryDto` with totals and per-council breakdowns
+
+### 4.6 Consent Management ✅
+- [x] 4.6.1 Create `UpdateConsent` feature
+  - POST `/api/federated-profile/consent`
+  - Grant or revoke cross-council data sharing consent
+  - POPIA compliance - citizen control over data
+  - Consent enforced in all aggregation endpoints
+  - Updates consent status and timestamp
+
+### 4.7 Council Linking Management ✅
+- [x] 4.7.1 Create `UnlinkCouncil` feature
+  - DELETE `/api/federated-profile/unlink/{tenantId}`
+  - Soft delete with audit trail (UnlinkedAt timestamp)
+  - Prevents unlinking from current council
+  - Returns remaining linked councils count
+  - Unlinked data no longer in aggregated views
+
+## Phase 3: Council Management (Core Features) ✅ COMPLETE
+
+### 3.6 Council Branding Domain ✅
+- [x] 3.6.1 Extended `Tenant` entity with branding fields
+  - `BrandingConfig` (JSON) - stores configuration
+  - `FederationEnabled` (bool) - opt-in/out flag
+- [x] 3.6.2 Created `TenantBrandingConfig` model
+  - Logo URL storage
+  - Colors: Primary, secondary, accent (hex)
+  - Fonts: Heading and body selections
+  - Custom CSS with sanitization
+  - Contact information structure
+  - Social media links
+
+### 3.7 Council Branding Application Service ✅
+- [x] 3.7.1 Create `GetCouncilBranding` feature
+  - GET `/api/council-branding?tenantId={id}`
+  - Public endpoint (no authentication)
+  - Returns full branding configuration
+  - Falls back to defaults if not configured
+  - Query any council's branding
+- [x] 3.7.2 Create `UpdateCouncilBranding` feature
+  - PUT `/api/council-branding`
+  - Requires Admin or Staff role
+  - Partial updates supported
+  - Hex color validation
+  - CSS sanitization (removes dangerous patterns)
+  - Stores as JSON in Tenant table
+
+### 3.8 Council Branding DTOs ✅
+- [x] 3.8.1 Created DTOs
+  - `BrandingDto` - complete branding configuration
+  - `ColorsDto` - color scheme
+  - `FontsDto` - typography
+  - `ContactDto` - contact information
+  - `SocialMediaDto` - social links
+  - Update request DTOs for partial updates
 
 ## Phase 2: Identity Verification
 
