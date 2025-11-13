@@ -3,7 +3,7 @@
 ## Phase 1: Foundation (Database and Core Entities)
 
 ### 1.1 Domain Model Changes
-- [ ] 1.1.1 Create `CitizenFederatedProfile` aggregate root entity
+- [x] 1.1.1 Create `CitizenFederatedProfile` aggregate root entity
   - Add `NationalIdType` enum (NationalId, TIN, Passport)
   - Add `NationalIdEncrypted` property
   - Add `NationalIdHash` property
@@ -11,44 +11,45 @@
   - Add `VerificationMethod` enum (SelfService, InPerson, BulkImport)
   - Add `VerifiedAt`, `VerifiedByTenantId` properties
   - Add `ConsentStatus` enum and `ConsentGrantedAt` properties
-- [ ] 1.1.2 Create `LinkedCitizenProfile` entity for tenant-citizen associations
+- [x] 1.1.2 Create `LinkedCitizenProfile` entity for tenant-citizen associations
   - Add `TenantId`, `CitizenId`, `LinkedAt` properties
-- [ ] 1.1.3 Extend `Citizen` entity with national ID fields
+- [x] 1.1.3 Extend `Citizen` entity with national ID fields
   - Add `NationalIdType`, `HasFederatedProfile` properties
   - Add navigation property to `CitizenFederatedProfile`
-- [ ] 1.1.4 Create repository interfaces
+- [ ] 1.1.4 Create repository interfaces (DEFERRED - VSA uses DbContext directly)
   - `ICitizenFederatedProfileRepository`
   - Extend `ICitizenRepository` with federation methods
 
 ### 1.2 Encryption and Security Utilities
-- [ ] 1.2.1 Implement encryption service for national IDs
+- [x] 1.2.1 Implement encryption service for national IDs
   - AES-256 encryption/decryption methods
   - Key management (Azure Key Vault integration placeholder)
   - Environment-specific key configuration
-- [ ] 1.2.2 Implement hashing utility for national ID lookups
+- [x] 1.2.2 Implement hashing utility for national ID lookups
   - SHA-256 hashing with salt
   - Collision-resistant hash generation
-- [ ] 1.2.3 Add security configurations
+- [x] 1.2.3 Add security configurations
   - Configure encryption keys in appsettings
   - Add key rotation documentation
 
 ### 1.3 Database Schema
-- [ ] 1.3.1 Create EF Core entity configurations
+- [x] 1.3.1 Create EF Core entity configurations
   - `CitizenFederatedProfileConfiguration`
   - `LinkedCitizenProfileConfiguration`
   - Update `CitizenConfiguration`
-- [ ] 1.3.2 Create database migration
+- [ ] 1.3.2 Create database migration (REQUIRES dotnet CLI)
   - Add `CitizenFederatedProfiles` table
   - Add `LinkedCitizenProfiles` table
   - Add indexes on `NationalIdHash` for performance
   - Add foreign keys and constraints
   - Update `Citizens` table with new fields
+  - See MIGRATION_INSTRUCTIONS.md for commands
 - [ ] 1.3.3 Seed initial data if needed
   - Default verification statuses
   - Test data for development environment
 
 ### 1.4 Permissions
-- [ ] 1.4.1 Define new permissions
+- [ ] 1.4.1 Define new permissions (DEFERRED - Requires policy-based auth implementation)
   - `CitizenManagement.FederatedProfiles.View`
   - `CitizenManagement.FederatedProfiles.Manage`
   - `IdentityVerification.View`
@@ -56,7 +57,7 @@
   - `IdentityVerification.Reject`
   - `TenantManagement.SelfRegister`
   - `TenantManagement.Branding.Manage`
-- [ ] 1.4.2 Assign permissions to roles
+- [ ] 1.4.2 Assign permissions to roles (DEFERRED)
   - System Admin: All permissions
   - Council Admin: Verification, branding
   - Citizen: View own federated profile

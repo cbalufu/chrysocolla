@@ -40,6 +40,16 @@ public sealed class CitizenConfiguration : IEntityTypeConfiguration<Citizen>
 
         builder.HasIndex(c => new { c.TenantId, c.NationalId });
 
+        builder.Property(c => c.NationalIdType)
+            .HasConversion<int>(); // Store enum as int
+
+        builder.Property(c => c.HasFederatedProfile)
+            .IsRequired();
+
+        builder.Property(c => c.FederatedProfileId);
+
+        builder.HasIndex(c => c.FederatedProfileId);
+
         builder.Property(c => c.DateOfBirth)
             .IsRequired();
 

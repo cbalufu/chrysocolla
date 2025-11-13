@@ -45,6 +45,10 @@ try
     // Email
     builder.Services.AddScoped<IEmailService, EmailService>();
 
+    // Security - National ID Encryption
+    builder.Services.AddSingleton<CitizensPortal.Api.Infrastructure.Security.INationalIdEncryptionService,
+        CitizensPortal.Api.Infrastructure.Security.NationalIdEncryptionService>();
+
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

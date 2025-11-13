@@ -20,6 +20,21 @@ public sealed class Citizen : IMultiTenant
     public DateTime DateOfBirth { get; set; }
     public string Address { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Type of national identifier if provided
+    /// </summary>
+    public NationalIdType? NationalIdType { get; set; }
+
+    /// <summary>
+    /// Whether this citizen has a federated profile for cross-council access
+    /// </summary>
+    public bool HasFederatedProfile { get; set; } = false;
+
+    /// <summary>
+    /// Reference to the federated profile ID (if linked)
+    /// </summary>
+    public Guid? FederatedProfileId { get; set; }
+
     public string? RefreshToken { get; set; } // For JWT refresh token
     public DateTime? RefreshTokenExpiryTime { get; set; }
 
