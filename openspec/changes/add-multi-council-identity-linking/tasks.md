@@ -80,6 +80,37 @@ The foundation has been implemented with core functionality that enables citizen
   - JWT authentication required
   - Swagger/OpenAPI documented
 
+### 4.4 Cross-Council Aggregation Services ✅
+- [x] 4.4.1 Create `GetCrossCouncilProperties` feature
+  - GET `/api/cross-council/properties`
+  - Retrieves properties from all linked councils
+  - Uses `IgnoreQueryFilters()` for multi-tenant queries
+  - Includes tenant identification
+  - Supports pagination
+- [x] 4.4.2 Create `GetCrossCouncilBills` feature
+  - GET `/api/cross-council/bills`
+  - Retrieves bills from all linked councils
+  - Calculates total outstanding amount
+  - Supports filtering by status
+  - Supports pagination
+- [x] 4.4.3 Create `GetCrossCouncilIssues` feature
+  - GET `/api/cross-council/issues`
+  - Retrieves issues from all linked councils
+  - Supports filtering by status and category
+  - Supports pagination
+- [x] 4.4.4 Create `GetCrossCouncilSummary` feature
+  - GET `/api/cross-council/summary`
+  - Dashboard with per-council and total statistics
+  - Property, bill, and issue counts
+  - Total outstanding calculations
+
+### 4.5 Cross-Council Aggregation DTOs ✅
+- [x] 4.5.1 Created DTOs
+  - `AggregatedPropertyDto` with TenantId/CouncilName
+  - `AggregatedBillDto` with council identification
+  - `AggregatedIssueDto` with council identification
+  - `CrossCouncilSummaryDto` with totals and per-council breakdowns
+
 ## Phase 2: Identity Verification
 
 ### 2.1 Document Management Domain
