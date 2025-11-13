@@ -1,5 +1,6 @@
 using CitizensPortal.Api.Infrastructure.Database;
 using CitizensPortal.Api.Infrastructure.Database.Entities;
+using CitizensPortal.Api.Infrastructure.Notifications;
 using CitizensPortal.Api.Infrastructure.Security;
 using ErrorOr;
 using MediatR;
@@ -12,13 +13,16 @@ public sealed class ReviewVerificationCommandHandler
 {
     private readonly ApplicationDbContext _context;
     private readonly INationalIdEncryptionService _encryptionService;
+    private readonly IVerificationNotificationService _notificationService;
 
     public ReviewVerificationCommandHandler(
         ApplicationDbContext context,
-        INationalIdEncryptionService encryptionService)
+        INationalIdEncryptionService encryptionService,
+        IVerificationNotificationService notificationService)
     {
         _context = context;
         _encryptionService = encryptionService;
+        _notificationService = notificationService;
     }
 
     public async Task<ErrorOr<ReviewVerificationResponse>> Handle(
@@ -106,6 +110,20 @@ public sealed class ReviewVerificationCommandHandler
 
             await _context.SaveChangesAsync(cancellationToken);
 
+            // Send approval notifications
+            await _notificationService.SendVerificationApprovedEmailAsync(
+                citizen.Email,
+                citizen.Name,
+                verificationRequest.ReferenceNumber,
+                verificationRequest.ReviewedAt!.Value);
+
+            await _notificationService.CreateInAppNotificationAsync(
+                citizen.TenantId!.Value,
+                citizen.Id,
+                "Identity Verification Approved ✓",
+                $"Your identity verification has been approved. You can now link accounts across councils.",
+                "High");
+
             return new ReviewVerificationResponse(
                 verificationRequest.Id,
                 verificationRequest.ReferenceNumber,
@@ -126,6 +144,21 @@ public sealed class ReviewVerificationCommandHandler
             verificationRequest.RejectionReason = request.RejectionReason;
 
             await _context.SaveChangesAsync(cancellationToken);
+
+            // Send rejection notifications
+            await _notificationService.SendVerificationRejectedEmailAsync(
+                citizen.Email,
+                citizen.Name,
+                verificationRequest.ReferenceNumber,
+                request.RejectionReason!,
+                verificationRequest.ReviewedAt!.Value);
+
+            await _notificationService.CreateInAppNotificationAsync(
+                citizen.TenantId!.Value,
+                citizen.Id,
+                "Identity Verification - Additional Information Required",
+                $"Your verification request needs attention. Please review the feedback and submit a new request.",
+                "High");
 
             return new ReviewVerificationResponse(
                 verificationRequest.Id,

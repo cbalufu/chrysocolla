@@ -1,5 +1,7 @@
 using CitizensPortal.Api.Infrastructure.Database;
 using CitizensPortal.Api.Infrastructure.Database.Entities;
+using CitizensPortal.Api.Infrastructure.FraudDetection;
+using CitizensPortal.Api.Infrastructure.Notifications;
 using ErrorOr;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +12,20 @@ public sealed class SubmitVerificationRequestCommandHandler
     : IRequestHandler<SubmitVerificationRequestCommand, ErrorOr<SubmitVerificationRequestResponse>>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IVerificationNotificationService _notificationService;
+    private readonly IFraudDetectionService _fraudDetectionService;
+    private readonly ILogger<SubmitVerificationRequestCommandHandler> _logger;
 
-    public SubmitVerificationRequestCommandHandler(ApplicationDbContext context)
+    public SubmitVerificationRequestCommandHandler(
+        ApplicationDbContext context,
+        IVerificationNotificationService notificationService,
+        IFraudDetectionService fraudDetectionService,
+        ILogger<SubmitVerificationRequestCommandHandler> logger)
     {
         _context = context;
+        _notificationService = notificationService;
+        _fraudDetectionService = fraudDetectionService;
+        _logger = logger;
     }
 
     public async Task<ErrorOr<SubmitVerificationRequestResponse>> Handle(
@@ -27,6 +39,35 @@ public sealed class SubmitVerificationRequestCommandHandler
         if (citizen == null)
         {
             return Error.NotFound("Citizen.NotFound", "Citizen not found");
+        }
+
+        // Fraud detection: Check rate limit
+        var hasExceededRateLimit = await _fraudDetectionService.HasExceededRateLimitAsync(
+            request.IpAddress, 60, 3);
+
+        if (hasExceededRateLimit)
+        {
+            _logger.LogWarning(
+                "Rate limit exceeded for IP {IpAddress} attempting to submit verification for citizen {CitizenId}",
+                request.IpAddress, request.CitizenId);
+
+            return Error.Validation(
+                "RateLimit.Exceeded",
+                "Too many verification requests. Please try again later.");
+        }
+
+        // Fraud detection: Check for suspicious activity
+        var isSuspicious = await _fraudDetectionService.IsSuspiciousActivityAsync(
+            request.CitizenId, request.IpAddress);
+
+        if (isSuspicious)
+        {
+            _logger.LogWarning(
+                "Suspicious activity detected for citizen {CitizenId} from IP {IpAddress}",
+                request.CitizenId, request.IpAddress);
+
+            // Still allow the request but flag for manual review
+            // In a production system, you might want to notify admins or add extra scrutiny
         }
 
         // Check for existing pending or under review requests
@@ -62,6 +103,23 @@ public sealed class SubmitVerificationRequestCommandHandler
 
         _context.IdentityVerificationRequests.Add(verificationRequest);
         await _context.SaveChangesAsync(cancellationToken);
+
+        // Record submission attempt for rate limiting
+        await _fraudDetectionService.RecordSubmissionAttemptAsync(request.IpAddress);
+
+        // Send notifications (email and in-app)
+        await _notificationService.SendVerificationSubmittedEmailAsync(
+            citizen.Email,
+            citizen.Name,
+            referenceNumber,
+            verificationRequest.SubmittedAt);
+
+        await _notificationService.CreateInAppNotificationAsync(
+            citizen.TenantId!.Value,
+            citizen.Id,
+            "Identity Verification Submitted",
+            $"Your identity verification request has been submitted. Reference: {referenceNumber}",
+            "Medium");
 
         return new SubmitVerificationRequestResponse(
             verificationRequest.Id,

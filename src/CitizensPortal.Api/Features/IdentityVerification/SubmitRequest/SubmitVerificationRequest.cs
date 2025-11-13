@@ -14,6 +14,7 @@ public sealed class SubmitVerificationRequest : ICarterModule
             [Authorize] async (
                 SubmitVerificationRequestDto dto,
                 ClaimsPrincipal user,
+                HttpContext httpContext,
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
@@ -24,10 +25,14 @@ public sealed class SubmitVerificationRequest : ICarterModule
                     return Results.Unauthorized();
                 }
 
+                // Get IP address from HttpContext
+                var ipAddress = httpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown";
+
                 var command = new SubmitVerificationRequestCommand(
                     citizenId,
                     dto.NationalIdType,
-                    dto.NationalIdValue
+                    dto.NationalIdValue,
+                    ipAddress
                 );
 
                 var result = await sender.Send(command, cancellationToken);

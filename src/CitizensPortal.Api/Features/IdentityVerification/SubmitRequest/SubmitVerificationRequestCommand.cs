@@ -7,5 +7,6 @@ namespace CitizensPortal.Api.Features.IdentityVerification.SubmitRequest;
 public sealed record SubmitVerificationRequestCommand(
     Guid CitizenId,
     NationalIdType NationalIdType,
-    string NationalIdValue
+    string NationalIdValue,
+    string IpAddress
 ) : IRequest<ErrorOr<SubmitVerificationRequestResponse>>;

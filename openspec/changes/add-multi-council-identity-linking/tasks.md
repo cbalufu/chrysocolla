@@ -225,10 +225,12 @@ An enhanced MVP has been implemented with identity verification workflows. Imple
   - Format: `verification-docs/{referenceNumber}/{documentType}-{timestamp}-{guid}.ext`
   - TODO: Actual blob storage integration (Azure Blob Storage, AWS S3, etc.)
   - Currently stores metadata only (production-ready pattern in place)
-- [ ] 2.3.3 Document expiration job (DEFERRED)
-  - Background job to delete expired documents (90 days)
-  - Can be implemented using Hangfire or similar
-  - Retention of metadata for audit
+- [x] 2.3.3 Document expiration background job ✅
+  - Implemented as BackgroundService (runs every 6 hours)
+  - Marks expired verification requests (90+ days old)
+  - Soft deletes expired documents
+  - Cleans up old documents from completed/rejected requests
+  - Retention of metadata for audit trail
 
 ### 2.4 Verification DTOs ✅
 - [x] 2.4.1 Created all required DTOs
@@ -250,15 +252,19 @@ An enhanced MVP has been implemented with identity verification workflows. Imple
   - POST `/api/identity-verification/{requestId}/review` - Approve/reject
   - Role-based authorization (Admin or Staff required)
 
-### 2.6 Verification Business Logic ⏸️
-- [ ] 2.6.1 Fraud detection (DEFERRED - Can be added incrementally)
-  - Document hash checking (detect duplicate documents)
-  - Rate limiting by IP address
-  - Rejection count tracking
-- [ ] 2.6.2 Notification triggers (DEFERRED - Can be added incrementally)
-  - Email notification on submission
-  - Email notification on approval/rejection
-  - Admin notifications for new requests
+### 2.6 Verification Business Logic ✅
+- [x] 2.6.1 Fraud detection ✅
+  - Document hash checking (SHA-256 for duplicate detection)
+  - Rate limiting by IP address (3 attempts per hour)
+  - Rejection count tracking per citizen
+  - Suspicious activity detection (multiple rejections, rate limit violations)
+  - In-memory cache for rate limiting with automatic cleanup
+- [x] 2.6.2 Notification triggers ✅
+  - Email notification on submission with reference number and instructions
+  - Email notification on approval with congratulations and next steps
+  - Email notification on rejection with reason and guidance
+  - In-app notifications for all verification events
+  - Notification service with email templates
 
 ### 2.7 Verification Analytics ⏸️
 - [ ] 2.7.1 Analytics service (DEFERRED - Can be added later)
