@@ -1,0 +1,56 @@
+using Carter;
+using ErrorOr;
+using MediatR;
+
+namespace CitizensPortal.Api.Features.Admin.ServiceRequests.UpdateServiceRequestStatus;
+
+public sealed class UpdateServiceRequestStatus : ICarterModule
+{
+    public void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapPut("/api/admin/service-requests/{id:guid}/status", async (
+            Guid id,
+            UpdateServiceRequestStatusRequest request,
+            ISender sender,
+            CancellationToken cancellationToken) =>
+        {
+            var command = new UpdateServiceRequestStatusCommand(
+                id,
+                request.Status,
+                request.AssignedToUserId,
+                request.CompletionNotes
+            );
+
+            var result = await sender.Send(command, cancellationToken);
+
+            return result.Match(
+                success => Results.Ok(success),
+                errors => Results.Problem(statusCode: errors[0].Type switch
+                {
+                    ErrorType.NotFound => StatusCodes.Status404NotFound,
+                    ErrorType.Validation => StatusCodes.Status400BadRequest,
+                    _ => StatusCodes.Status400BadRequest
+                },
+                title: errors[0].Code,
+                detail: errors[0].Description)
+            );
+        })
+        .RequireAuthorization("StaffOrAdmin")
+        .WithName("UpdateServiceRequestStatus")
+        .WithTags("Admin - Service Requests")
+        .WithOpenApi()
+        .Produces<UpdateServiceRequestStatusResponse>(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status400BadRequest)
+        .Produces(StatusCodes.Status401Unauthorized)
+        .Produces(StatusCodes.Status403Forbidden)
+        .Produces(StatusCodes.Status404NotFound)
+        .WithSummary("Update service request status (Admin/Staff)")
+        .WithDescription("Allows admin/staff to update service request status, assign to staff, and add completion notes.");
+    }
+}
+
+public sealed record UpdateServiceRequestStatusRequest(
+    string Status,
+    Guid? AssignedToUserId,
+    string? CompletionNotes
+);
