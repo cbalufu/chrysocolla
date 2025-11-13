@@ -13,6 +13,17 @@ public sealed class Tenant
     public bool IsActive { get; set; }
     public DateTime CreatedAt { get; set; }
 
+    /// <summary>
+    /// Council branding configuration stored as JSON
+    /// Includes logo URL, colors, fonts, custom CSS, and contact information
+    /// </summary>
+    public string? BrandingConfig { get; set; }
+
+    /// <summary>
+    /// Whether this council has enabled cross-council federation features
+    /// </summary>
+    public bool FederationEnabled { get; set; } = true;
+
     public Tenant() { }
 
     public Tenant(Guid id, string name, string subdomain)
