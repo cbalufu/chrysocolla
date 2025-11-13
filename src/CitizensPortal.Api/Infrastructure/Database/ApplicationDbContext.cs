@@ -44,6 +44,7 @@ public sealed class ApplicationDbContext : DbContext
     public DbSet<LinkedCitizenProfile> LinkedCitizenProfiles => Set<LinkedCitizenProfile>();
     public DbSet<IdentityVerificationRequest> IdentityVerificationRequests => Set<IdentityVerificationRequest>();
     public DbSet<VerificationDocument> VerificationDocuments => Set<VerificationDocument>();
+    public DbSet<CouncilRegistrationRequest> CouncilRegistrationRequests => Set<CouncilRegistrationRequest>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
